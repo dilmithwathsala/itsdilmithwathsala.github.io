@@ -1,11 +1,18 @@
-// This script is currently not strictly necessary because of `scroll-behavior: smooth` in the CSS,
-// but it's here for browsers that might not support it and for future enhancements.
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+// script.js
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.animate');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Animate once
+            }
         });
+    }, {
+        threshold: 0.1
     });
+
+    animatedElements.forEach(el => observer.observe(el));
 });
